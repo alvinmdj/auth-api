@@ -63,3 +63,7 @@ auth-api/                   → Root Proyek.
 App db: ```npm run migrate up```
 
 Test db: ```npm run migrate:test up```
+
+## Run test on development (watch mode)
+
+```npm run test:watch```
