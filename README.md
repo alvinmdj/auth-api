@@ -37,3 +37,29 @@ auth-api/                   → Root Proyek.
 ├─ .env                     → Environment variable.
 ├─ package.json             → Project Manifest.
 ```
+
+## Setup psql db
+
+- Login as root user:
+
+```psql --username postgres```
+
+- Create db:
+
+```CREATE DATABASE authapi; CREATE DATABASE authapi_test;```
+
+- Grant access to user 'alvin':
+
+```GRANT ALL PRIVILEGES ON DATABASE authapi, authapi_test TO alvin;```
+
+## Create migration file
+
+```npm run migrate create "create table users"```
+
+```npm run migrate create "create table authentications"```
+
+## Run migrations
+
+App db: ```npm run migrate up```
+
+Test db: ```npm run migrate:test up```
