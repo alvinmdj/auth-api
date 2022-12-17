@@ -2,7 +2,7 @@
 const pool = require('../src/Infrastructures/database/postgres/pool');
 
 const UsersTableTestHelper = {
-  async addUsers({
+  async addUser({
     id = 'user-123',
     username = 'dicoding',
     password = 'secret',
@@ -16,7 +16,7 @@ const UsersTableTestHelper = {
     await pool.query(query);
   },
 
-  async findUserById(id) {
+  async findUsersById(id) {
     const query = {
       text: 'SELECT * FROM users WHERE id = $1',
       values: [id],
