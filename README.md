@@ -68,6 +68,10 @@ Test db: ```npm run migrate:test up```
 
 ```npm run test:watch```
 
+## Run server on development
+
+```npm run start:dev```
+
 ## Package used for Service Locator implementation
 
 [instances-container](https://github.com/dimasmds/instances-container)
