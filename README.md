@@ -67,3 +67,12 @@ Test db: ```npm run migrate:test up```
 ## Run test on development (watch mode)
 
 ```npm run test:watch```
+
+## Package used for Service Locator implementation
+
+[instances-container](https://github.com/dimasmds/instances-container)
+
+```instances-container``` popular alternatives:
+
+- [Awilix](https://github.com/jeffijoe/awilix)
+- [Bottlejs](https://github.com/young-steveo/bottlejs)
