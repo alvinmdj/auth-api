@@ -13,6 +13,20 @@ describe('HTTP server', () => {
     await UsersTableTestHelper.cleanTable();
   });
 
+  it('should response 404 when request unregistered route', async () => {
+    // Arrange
+    const server = await createServer({});
+
+    // Action
+    const response = await server.inject({
+      method: 'GET',
+      url: '/unregistered-route',
+    });
+
+    // Assert
+    expect(response.statusCode).toEqual(404);
+  });
+
   describe('when POST /users', () => {
     it('should response 201 and persisted user', async () => {
       // Arrange
@@ -35,6 +49,144 @@ describe('HTTP server', () => {
       expect(response.statusCode).toEqual(201);
       expect(responseJson.status).toEqual('success');
       expect(responseJson.data.addedUser).toBeDefined();
+    });
+
+    it('should response 400 when request payload not contain needed property', async () => {
+      // Arrange
+      const requestPayload = {
+        fullname: 'Dicoding Indonesia',
+        password: 'secret',
+      };
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: 'POST',
+        url: '/users',
+        payload: requestPayload,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(400);
+      expect(responseJson.status).toEqual('fail');
+      expect(responseJson.message).toEqual('cannot create user because request payload not contain needed property');
+    });
+
+    it('should response 400 when request payload not meet data type specification', async () => {
+      // Arrange
+      const requestPayload = {
+        username: 'dicoding',
+        password: 'secret',
+        fullname: ['Dicoding Indonesia'],
+      };
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: 'POST',
+        url: '/users',
+        payload: requestPayload,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(400);
+      expect(responseJson.status).toEqual('fail');
+      expect(responseJson.message).toEqual('cannot create user because request payload does not meet data type specification');
+    });
+
+    it('should response 400 when username more than 50 character', async () => {
+      // Arrange
+      const requestPayload = {
+        username: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
+        password: 'secret',
+        fullname: 'Dicoding Indonesia',
+      };
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: 'POST',
+        url: '/users',
+        payload: requestPayload,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(400);
+      expect(responseJson.status).toEqual('fail');
+      expect(responseJson.message).toEqual('cannot create user because username length more than 50 character');
+    });
+
+    it('should response 400 when username contain restricted character', async () => {
+      // Arrange
+      const requestPayload = {
+        username: 'dicoding indonesia',
+        password: 'secret',
+        fullname: 'Dicoding Indonesia',
+      };
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: 'POST',
+        url: '/users',
+        payload: requestPayload,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(400);
+      expect(responseJson.status).toEqual('fail');
+      expect(responseJson.message).toEqual('cannot create user because username contain restricted character');
+    });
+
+    it('should response 400 when username unavailable', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({ username: 'dicoding' });
+      const requestPayload = {
+        username: 'dicoding',
+        fullname: 'Dicoding Indonesia',
+        password: 'secret',
+      };
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: 'POST',
+        url: '/users',
+        payload: requestPayload,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(400);
+      expect(responseJson.status).toEqual('fail');
+      expect(responseJson.message).toEqual('username not available');
+    });
+
+    it('should handle server error correctly', async () => {
+      // Arrange
+      const requestPayload = {
+        username: 'dicoding',
+        fullname: 'Dicoding Indonesia',
+        password: 'secret',
+      };
+      const server = await createServer({}); // fake container
+
+      // Action
+      const response = await server.inject({
+        method: 'POST',
+        url: '/users',
+        payload: requestPayload,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(500);
+      expect(responseJson.status).toEqual('error');
+      expect(responseJson.message).toEqual('Something wrong on the server');
     });
   });
 });
