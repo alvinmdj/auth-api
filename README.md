@@ -80,3 +80,7 @@ Test db: ```npm run migrate:test up```
 
 - [Awilix](https://github.com/jeffijoe/awilix)
 - [Bottlejs](https://github.com/young-steveo/bottlejs)
+
+## Connect ec2:
+
+[modul dicoding koneksi ec2 melalui ssh](https://www.dicoding.com/academies/261/tutorials/14817)
