@@ -83,4 +83,6 @@ Test db: ```npm run migrate:test up```
 
 ## Connect ec2:
 
-[modul dicoding koneksi ec2 melalui ssh](https://www.dicoding.com/academies/261/tutorials/14817)
+- [modul dicoding koneksi ec2 melalui ssh](https://www.dicoding.com/academies/271/tutorials/17546)
+- [config ec2 from ssh](https://www.dicoding.com/academies/276/tutorials/19057)
+
