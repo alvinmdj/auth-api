@@ -83,17 +83,17 @@ Test db: ```npm run migrate:test up```
 
 ## AWS
 
-### Connect aws rds psql:
+### Connect AWS RDS (PostgreSQL)
 
 ```sh
 psql -h <rds-endpoint> -U <username>
 # psql -h auth-api-cluster.xxxx.ap-southeast-1.rds.amazonaws.com -U postgres
 ```
 
-
-### Connect EC2:
+### Connect EC2
 
 cd to pem file dir:
+
 ```sh
 ssh -i "<pem-name>.pem" ubuntu@<ec2-public-address>
 # ssh -i "auth-api-app-server.pem" ubuntu@ec2-xx.xx.xx.xx.ap-southeast-1.compute.amazonaws.com
@@ -102,4 +102,4 @@ ssh -i "<pem-name>.pem" ubuntu@<ec2-public-address>
 - [create aws rds cluster](https://www.dicoding.com/academies/276/tutorials/19042)
 - [connect ec2 from ssh](https://www.dicoding.com/academies/271/tutorials/17546)
 - [config ec2 from ssh](https://www.dicoding.com/academies/276/tutorials/19057)
-
+- [setup nginx from ssh](https://www.dicoding.com/academies/276/tutorials/19107)
