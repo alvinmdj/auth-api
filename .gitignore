@@ -2,3 +2,5 @@
 /coverage
 .env
 auth-api-app-server.pem
+config/database/test.json
+package-lock.json
