@@ -66,6 +66,9 @@ Test db: ```npm run migrate:test up```
 
 ## Run test on development (watch mode)
 
+- Make a copy of the config/database/test_example.json file and rename it to test.json
+```cp config/database/test_example.json config/database/test.json```
+
 ```npm run test:watch```
 
 ## Run server on development
